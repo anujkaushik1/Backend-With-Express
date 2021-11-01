@@ -22,9 +22,12 @@ let users = [
 ];
 
     const userRouter = express.Router();   //mini app
+    const authRouter = express.Router();
 
     app.use("/users",userRouter);   
             //base route //router to use
+    app.use("/auth",authRouter); 
+
 
     userRouter
     .route("/")
@@ -36,6 +39,11 @@ let users = [
     userRouter
     .route("/:username")
     .get(getUserByID)
+
+    authRouter
+    .route("/signup")
+    .get(getSignUp)
+    .post(postSignUp);
     
     
 
@@ -98,6 +106,22 @@ function getUserByID(req,res){
     res.send("user id received ");
     console.log(req.params);   
     console.log(req.params.username); 
+
+}
+
+
+function getSignUp(req,res){
+    res.sendFile("public/index.html",{root : __dirname}); 
+}
+
+function postSignUp(req,res){
+    let obj = req.body;
+    console.log("backend =>",obj);
+    res.json({
+        message : "user registered successfully",
+        data : obj
+    });
+    
 
 }
 
