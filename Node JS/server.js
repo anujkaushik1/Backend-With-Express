@@ -15,6 +15,15 @@ const server = http.createServer((req,res) => {
     // res.write("<h1> How are you? </h1>");
     // res.end();
 
+
+    let greet = _.once(() => {
+        console.log("hello");
+    });
+
+    greet();
+    greet();
+
+
     let path = "./views";
     switch(req.url){
         case "/":
