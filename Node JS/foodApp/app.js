@@ -2,6 +2,7 @@ const express = require("express");
 
 const app = express();  //instance
 const mongoose = require("mongoose");
+const emailValidator = require("email-validator");
 
 app.use(express.json());  
 
@@ -72,7 +73,7 @@ async function getUser(req,res) {
 
 function postUser(req,res) {
 
-    console.log(req.body);
+   // console.log(req.body);
 
     users = req.body;
 
@@ -175,7 +176,11 @@ const userSchema = mongoose.Schema({
     email: {
         type : String,
         required : true,
-        unique : true
+        unique : true,
+        validate : function(){
+            return emailValidator.validate(this.email);
+        }
+
     },
     password: {
         type : String,
@@ -186,10 +191,26 @@ const userSchema = mongoose.Schema({
     confirmPassword: {
         type : String,
         required : true,
-        min : 7
+        min : 7,
+        validate : function(){  
+            return this.confirmPassword == this.password;    
+        }
         
     }
 });
+
+    // userSchema.pre('save',function(){
+    //     console.log("Before saving in database",this);
+    // });
+
+    // userSchema.post('save',function(doc){    //data that is saved in database is stored in doc
+    //     console.log("After saving in database",doc);
+    // });
+
+    userSchema.pre("save",function(){
+        this.confirmPassword = undefined;
+    });
+    
 
     // model =>
 
