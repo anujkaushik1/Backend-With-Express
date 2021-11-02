@@ -7,20 +7,20 @@ app.use(express.json());
 
 app.listen(3000);
 
-let users = [
-    {
-        id : "1",
-        name : "Anuj kaushik",
-    },
-    {
-        id : "2",
-        name : "Nishant Jain"
-    },
-    {
-        id : "3",
-        name : "Abhishek"
-    }
-];
+// let users = [
+//     {
+//         id : "1",
+//         name : "Anuj kaushik",
+//     },
+//     {
+//         id : "2",
+//         name : "Nishant Jain"
+//     },
+//     {
+//         id : "3",
+//         name : "Abhishek"
+//     }
+// ];
 
     const userRouter = express.Router();   //mini app
     const authRouter = express.Router();
@@ -60,8 +60,13 @@ app.get("/users/:username",(req,res) =>{
 
 });
 
-function getUser(req,res) {
-    res.send(users);
+async function getUser(req,res) {
+
+    let allUser = await userModel.find();
+    res.json({
+        message : "List of all users",
+        data : allUser
+    });
 
 };
 
@@ -78,26 +83,28 @@ function postUser(req,res) {
 
 };
 
-function updateUser(req,res){
+async function updateUser(req,res){
     console.log(req.body);
 
     let dataToBeUpdated = req.body;
-    for(key in dataToBeUpdated){
-        users[key] = dataToBeUpdated[key]; 
-    }
+    let user = await userModel.findOneAndUpdate({email : "nishantjain123"},dataToBeUpdated);
 
     res.json({
-        message: "data updated successfully"
+        message: "data updated successfully",
+        data : user
 
     })
 
 };
 
-function deleteUser(req,res)  {
+async function deleteUser(req,res)  {
 
-    users = {};
+    let user = await userModel.findOneAndDelete({email : "nishantjain123"});
+
+    
     res.json({
-        message : "data has been deleted"
+        message : "data has been deleted",
+        data : user
     });
 
 };
@@ -112,17 +119,22 @@ function getUserByID(req,res){
 
 
 function getSignUp(req,res,next){
+
+
     console.log("getsignup function is called");
     //res.sendFile("public/index.html",{root : __dirname}); 
     next();
 }
 
-function postSignUp(req,res){
-    let obj = req.body;
-    console.log("backend =>",obj);
+
+async function postSignUp(req,res){
+   
+    let dataObj = req.body; 
+    let user = await userModel.create(dataObj);
+    
     res.json({
         message : "user registered successfully",
-        data : obj
+        data : user
     });
     
 
@@ -183,17 +195,17 @@ const userSchema = mongoose.Schema({
 
 const userModel = mongoose.model("userModel",userSchema);
 
-    (async function createUser(){
-    let users = {
-        name : "Anuj",
-        email : "anujkaushik1512@gmail.com",
-        password : "12345678",
-        confirmPassword : "12345678"
-    }
-    let data = await userModel.create(users);
-    console.log(data);
+//     (async function createUser(){
+//     let users = {
+//         name : "Anuj",
+//         email : "anujkaushik1512@gmail.com",
+//         password : "12345678",
+//         confirmPassword : "12345678"
+//     }
+//     let data = await userModel.create(users);
+//     console.log(data);
 
-})();
+// })();
 
 
 
