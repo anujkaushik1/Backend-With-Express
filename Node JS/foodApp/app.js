@@ -4,6 +4,7 @@ const app = express();  //instance
 const mongoose = require("mongoose");
 const emailValidator = require("email-validator");
 
+console.log('debugger hit');
 app.use(express.json());  
 
 app.listen(3000);
@@ -166,6 +167,8 @@ mongoose.connect(db_link)
 }).catch(function(err){
     console.log(err);
 });
+
+
 
 const userSchema = mongoose.Schema({
     name: {
