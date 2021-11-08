@@ -1,10 +1,12 @@
 const express = require("express");
-
 const app = express();  //instance
-
 const userModel = require("./models/userModel");
+const cookieParser = require("cookie-parser");
+const { log } = require("npmlog");
+
 
 app.use(express.json());  
+app.use(cookieParser());    
 
 app.listen(3000);
 
@@ -37,6 +39,14 @@ app.listen(3000);
     .post(postUser)
     .patch(updateUser)
     .delete(deleteUser)
+
+    userRouter
+    .route("/getcookies")
+    .get(getCookies);
+
+    userRouter
+    .route("/setcookies")
+    .get(setCookies);
 
     userRouter
     .route("/:username")
@@ -100,7 +110,7 @@ async function updateUser(req,res){
 
 async function deleteUser(req,res)  {
 
-    let user = await userModel.findOneAndDelete({email : "nishantjain123"});
+    let user = await userModel.findOneAndDelete({email : "nishantjain421"});
 
     
     res.json({
@@ -155,6 +165,19 @@ function middleWare2(req,res,next){
      console.log("middleware 2 ended req/res cycle");
     
     res.sendFile("public/index.html",{root : __dirname}); 
+
+}
+
+
+function getCookies(req,res){
+    let cookies = req.cookies;
+    console.log(cookies);
+    res.send("cookies received");
+}
+
+function setCookies(req,res){
+    res.cookie("isLoggedIn",false,{maxAge:1000*60*60*24,secure:true,httpOnly:true});
+    res.send("Cokkies has been set");
 
 }
 
