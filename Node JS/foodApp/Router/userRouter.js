@@ -1,10 +1,11 @@
 const express = require("express");
 const userModel = require("../models/userModel");
 const userRouter = express.Router();   //mini app
+const protectRoute = require("./authHelper");
  
 userRouter
 .route("/")
-.get(getUser)   //path specific middleware
+.get(protectRoute,getUser)   //path specific middleware
 .post(postUser)
 .patch(updateUser)
 .delete(deleteUser)
@@ -90,6 +91,7 @@ function setCookies(req,res){
     res.send("Cokkies has been set");
 
 }
+
 
 module.exports=userRouter;
 

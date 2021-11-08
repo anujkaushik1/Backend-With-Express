@@ -61,6 +61,7 @@ async function loginUser(req,res){
         if(user){
 
             if(user.password==data.password){
+                res.cookie("isLoggedIn",true);
                     return res.json({
                         message : "user logged in successfully",
                         userDetails: data
