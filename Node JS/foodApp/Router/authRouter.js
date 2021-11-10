@@ -1,6 +1,8 @@
 const express = require("express");
 const authRouter = express.Router();
 const userModel = require("../models/userModel");
+const jwt = require("jsonwebtoken");
+const JWT_KEY = "jhua7dyauiy8";
 
 
 authRouter
@@ -61,7 +63,9 @@ async function loginUser(req,res){
         if(user){
 
             if(user.password==data.password){
-                res.cookie("isLoggedIn",true);
+                let uid = user['_id']; //unique id
+                let jwt_token = jwt.sign({payload:uid},JWT_KEY);
+                res.cookie("isLoggedIn",jwt_token);
                     return res.json({
                         message : "user logged in successfully",
                         userDetails: data
