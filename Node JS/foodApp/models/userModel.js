@@ -43,6 +43,15 @@ const userSchema = mongoose.Schema({
             return this.confirmPassword == this.password;    
         }
         
+    },
+    role: {
+        type : String,
+        enum : ['admin','user','restaurantowner','deliveryboy'],    //enum is used to create the array of the string
+        default : 'user'
+    },
+    profileImage: {
+         type: String,
+         default:"img/users/default.jpeg"
     }
 });
 
