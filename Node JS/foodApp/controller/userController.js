@@ -19,7 +19,7 @@ module.exports.getAllUser= async function getUserByID(req,res){
 
 module.exports.getUser=async function getUser(req,res) {
 
-    let id = req.params.id;
+    let id = req.id;
 
     let user = await userModel.findById(id);
     

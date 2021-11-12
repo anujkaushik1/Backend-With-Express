@@ -1,7 +1,7 @@
 const express = require("express");
 const userRouter = express.Router();   //mini app
 const {getUser,getAllUser,updateUser,deleteUser} = require("../controller/userController");
-const { application } = require("express");
+// const { application } = require("express");
 const{signup,login,isAuthorised,protectRoute}=require("../controller/authController");
  
 
@@ -10,11 +10,6 @@ userRouter.route("/:id")  //to update or delete specific user
 .patch(updateUser)
 .delete(deleteUser);
 
-//profile page
-userRouter.use(protectRoute);
-userRouter
-.route("/userprofile")
-.get(getUser);
 
 userRouter
 .route("/signup")
@@ -23,6 +18,12 @@ userRouter
 userRouter
 .route("/login")
 .post(login);
+
+//profile page
+userRouter.use(protectRoute);
+userRouter
+.route("/userprofile")
+.get(getUser);
 
 
 //admin specific

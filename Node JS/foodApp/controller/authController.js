@@ -26,6 +26,7 @@ module.exports.signup=async function signup(req,res){
        
 
     }catch(err){
+        console.log(err.message);
         return res.json({
             message : err.message
         })
@@ -59,7 +60,7 @@ module.exports.login=async function loginUser(req,res){
 
         }else{
             return res.json({
-                message : "user not found"
+                message : "ser not found"
             })
         }
 }
@@ -76,7 +77,7 @@ catch(err){
 module.exports.isAuthorised=function isAuthorised(roles){
 
     return function(req,res,next){
-        if(roles.include(req.role)==true){
+        if(roles.includes(req.role)==true){
             next();
         }else{
             return res.json({

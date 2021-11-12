@@ -28,11 +28,7 @@ app.listen(3000);
 
     app.use("/users",userRouter);   
             //base route //router to use
-    app.use("/auth",authRouter); 
 
-
-
-    
 
     //Queries => 
 
