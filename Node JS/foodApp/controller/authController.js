@@ -60,7 +60,7 @@ module.exports.login=async function loginUser(req,res){
 
         }else{
             return res.json({
-                message : "ser not found"
+                message : "user not found"
             })
         }
 }
@@ -107,6 +107,12 @@ module.exports.protectRoute=async function protectRoute(req,res,next){
                 }
 
             else{
+                const client = req.get("User-Agent");
+
+                if(client.includes("Mozilla")){
+                    return res.redirect("/login");
+                }
+
                 return res.json({
                     message : "user not verified"
                 })
@@ -142,7 +148,7 @@ module.exports.forgetPassowrd=async function forgetPassowrd(req,res){
     }
 }
 
-module.exports.resetpassword = async function resetpassword(req, res) {
+module.exports.resetPassword = async function resetPassword(req, res) {
     try {
       const token = req.parmas.token;
       let { password, confirmPassword } = req.body;
@@ -164,6 +170,14 @@ module.exports.resetpassword = async function resetpassword(req, res) {
         message: err.message,
       });
     }
-  };
+  }; 
+
+ module.exports.logout = function logout(req,res){
+        res.cookie("isLoggedIn"," ",{maxAge:1});
+        res.json({
+            message : "user logged out successfully"
+        });
+
+  }
 
 

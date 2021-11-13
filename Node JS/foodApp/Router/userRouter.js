@@ -2,7 +2,7 @@ const express = require("express");
 const userRouter = express.Router();   //mini app
 const {getUser,getAllUser,updateUser,deleteUser} = require("../controller/userController");
 // const { application } = require("express");
-const{signup,login,isAuthorised,protectRoute}=require("../controller/authController");
+const{signup,login,isAuthorised,protectRoute,forgetPassowrd,resetPassword,logout}=require("../controller/authController");
  
 
 //user options
@@ -26,7 +26,7 @@ userRouter
 
 userRouter
 .route("/resetpassword/:token")
-.post(resetPasword);
+.post(resetPassword);
 
 
 //profile page
@@ -35,11 +35,17 @@ userRouter
 .route("/userprofile")
 .get(getUser);
 
+//user logout
+
+userRouter
+.route("/logout")
+.get(logout);
 
 //admin specific
 userRouter.use(isAuthorised(['admin']))
 userRouter.route("")   // this work should be done by admin only
 .get(getAllUser);
+
 
 module.exports=userRouter;
 
