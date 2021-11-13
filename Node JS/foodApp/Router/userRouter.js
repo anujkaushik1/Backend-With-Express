@@ -19,6 +19,16 @@ userRouter
 .route("/login")
 .post(login);
 
+userRouter
+.route("/forgetpassword")
+.post(forgetPassowrd);
+
+
+userRouter
+.route("/resetpassword/:token")
+.post(resetPasword);
+
+
 //profile page
 userRouter.use(protectRoute);
 userRouter

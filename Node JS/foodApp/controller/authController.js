@@ -121,3 +121,49 @@ module.exports.protectRoute=async function protectRoute(req,res,next){
 }
 
 
+module.exports.forgetPassowrd=async function forgetPassowrd(req,res){
+    let {email} = req.body;
+    try{
+        const user = await userModel.findOne({email:email});
+        if(user){
+           const resetToken = user.createResetToken();
+           const resetPasswordLink = `${req.protocol}://${req.get('host')}/resetpassword/${resetToken}`;
+
+        }else{
+            return res.json({
+                message : "Please signup"
+            })
+        }
+    }
+    catch(err){
+        return res.json({
+            message: err.message
+        })
+    }
+}
+
+module.exports.resetpassword = async function resetpassword(req, res) {
+    try {
+      const token = req.parmas.token;
+      let { password, confirmPassword } = req.body;
+      const user = await userModel.findOne({ resetToken: token });
+      if (user) {
+        //resetPasswordHandler will update user's password in db
+        user.resetPasswordHandler(password, confirmPassword);
+        await user.save();
+        res.json({
+          message: "password changed succesfully, please login again",
+        });
+      } else {
+        res.json({
+          message: "user not found",
+        });
+      }
+    } catch (err) {
+      res.json({
+        message: err.message,
+      });
+    }
+  };
+
+

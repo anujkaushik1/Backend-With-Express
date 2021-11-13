@@ -52,7 +52,8 @@ const userSchema = mongoose.Schema({
     profileImage: {
          type: String,
          default:"img/users/default.jpeg"
-    }
+    },
+    resetToken : String
 });
 
     // userSchema.pre('save',function(){
