@@ -22,7 +22,7 @@ module.exports.getAllPlans = async function getAllPlans(req,res){
     }
 }
 
-module.exports.getPlans = async function getPlan(req,res){
+module.exports.getPlans = async function getPlans(req,res){
     try{
         let id = req.params.id;
         let plan = await planModel.findById(id);
@@ -95,10 +95,14 @@ module.exports.updatePlan = async function updatePlan(req,res){
         }
 
         await plan.save();
+        res.json({
+            message : "data updated successfully",
+            data : plan    
+        })
 
     }catch(err){
         return res.json({
-            message : err.message;
+            message : err.message
         })
     }
 
@@ -113,7 +117,7 @@ module.exports.top3Plans = async function top3Plans(req,res){
         }).limit(3);
 
         return res.json({
-            message : "top 3 plans received";
+            message : "top 3 plans received",
             data : plans
         })
 

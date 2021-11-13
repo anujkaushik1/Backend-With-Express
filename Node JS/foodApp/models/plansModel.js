@@ -38,19 +38,4 @@ const planSchema = new mongoose.Schema({
 
 const planModel = mongoose.model("planModel",planSchema);
 
-(async function createPlan(){
-    let planObj = {
-        name : "SuperFood3",
-        duration : 20,
-        price : 2000,
-        ratingsAverage : 3,
-        discount : 10
-    }
-
-    let data = await planModel.create(planObj);
-    console.log(data);
-
-})();
-
-
 module.exports = planModel;

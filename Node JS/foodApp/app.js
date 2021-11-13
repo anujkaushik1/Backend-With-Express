@@ -7,12 +7,10 @@ app.use(cookieParser());
 app.listen(3000);
 
     const userRouter = require("./Router/userRouter");   //mini app
-    const authRouter = require("./Router/authRouter"); 
+    const planRouter = require("./Router/planRouter"); 
 
     app.use("/users",userRouter);         //base route //router to use
+    app.use("/plans",planRouter);
 
-
-    const planModel = require("./models/plansModel");   // variable name should be same as the fuction name which we have exported like (const planModel = mongoose.model("planModel",planSchema);) 
-
-       
+ 
 

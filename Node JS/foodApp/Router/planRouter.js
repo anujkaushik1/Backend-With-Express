@@ -1,7 +1,7 @@
 const express = require("express");
 const planRouter = express.Router();   //mini app
 const {protectRoute, isAuthorised} = require("../controller/authController");
-const {getPlan,getAllPlans,createPlan,updatePlan,deletePlan, top3Plans} = require("../controller/planController");
+const {getPlans,getAllPlans,createPlan,updatePlan,deletePlan, top3Plans} = require("../controller/planController");
 
 
 
@@ -20,9 +20,9 @@ planRouter
 planRouter.use(protectRoute)
 planRouter
 .route("/plan/:id")
-.get(getPlan);
+.get(getPlans);
 
-planRouter.use(isAuthorised["admin","restaurantowner"]);
+planRouter.use(isAuthorised(["admin","restaurantowner"]));
 planRouter      //admin or restaurant owner can only create update and delete the plans 
 .route("/crudPlan")
 .post(createPlan);
@@ -32,4 +32,5 @@ planRouter
 .patch(updatePlan)
 .delete(deletePlan)
 
+module.exports = planRouter;
 
