@@ -1,22 +1,26 @@
 const express = require("express");
-const reviewRouter = express.Router();   //mini app
-const {protectRoute, isAuthorised} = require("../controller/authController");
+const reviewRouter = express.Router();
+const{protectRoute}=require('../controller/authController');
+const{getAllReviews,top3reviews,getPlanReviews,createReview,updateReview,deleteReview}=require('../controller/reviewController');
 
 reviewRouter
-.route("/reviews/")
+.route('/all')
 .get(getAllReviews);
 
+reviewRouter
+.route('/top3')
+.get(top3reviews);
 
 reviewRouter
-.route("/top3reviews")
-.get(getTop3Reviews);
-
-
-reviewRouter
-.route("/reviews/:id")
+.route('/:id')
 .get(getPlanReviews);
 
-planRouter.use(isAuthorised(['admin','restaurantowner']));
-planRouter
-.route('/crudPlan')
-.post(createPlan);
+reviewRouter.use(protectRoute);
+reviewRouter
+.route('/crud/:plan')
+.post(createReview)
+.patch(updateReview)
+.delete(deleteReview)
+
+module.exports=reviewRouter;
+
