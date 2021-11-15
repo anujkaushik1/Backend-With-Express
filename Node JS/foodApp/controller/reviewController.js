@@ -50,8 +50,13 @@ module.exports.getAllReviews=async function getAllReviews(req,res){
 
   module.exports.getPlanReviews=async function getPlanReviews(req,res){
     try{
-        const id = req.params.id;
-      const reviews= await reviewModel.findById(id);
+        console.log("first");
+        let planid = req.params.id;
+        console.log(planid);
+      let reviews= await reviewModel.find();  
+      console.log("third");
+      reviews=reviews.filter(review=>review.plan["_id"]==planid);
+      console.log("fourth");
       if(reviews){
         res.json({
           message:"review found",
@@ -77,7 +82,7 @@ module.exports.createReview = async function createReview(req,res){
 
     let id = req.params.plan;
     let plan = await planModel.findById(id);
-    let review = await reviewModel.create();
+    let review = await reviewModel.create(req.body);
 
     plan.ratingsAverage=(plan.ratingsAverage+req.body.rating)/2;
     await review.save();
@@ -88,17 +93,19 @@ module.exports.createReview = async function createReview(req,res){
     
 }catch(err){
     res.json({
-        message : err.message
+        message : "err.message"
     })
   } 
 }
 
 module.exports.updateReview=async function updateReview(req,res){
     try{
-    let id=req.body.id;
+    let planid=req.params.id;
+    let id = req.body.id;
     let dataToBeUpdated=req.body;
     let keys=[];
     for(let key in dataToBeUpdated){
+        if(key=="id") continue;
       keys.push(key);
     }
     let review=await reviewModel.findById(id);
@@ -120,7 +127,8 @@ module.exports.updateReview=async function updateReview(req,res){
 
   module.exports.deleteReview=async function deleteReview(req,res){
     try{
-    let id=req.body.id;
+    let planid=req.body.id;
+    let id = req.body.id;
     let review=await reviewModel.findByIdAndDelete(id);
     res.json({
       message: "review deleted",
