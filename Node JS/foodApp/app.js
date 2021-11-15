@@ -8,9 +8,12 @@ app.listen(3000);
 
     const userRouter = require("./Router/userRouter");   //mini app
     const planRouter = require("./Router/planRouter"); 
+    const reviewRouter = require("./Router/reviewRouter"); 
+     
 
     app.use("/users",userRouter);         //base route //router to use
     app.use("/plans",planRouter);
+    app.use("/reviews",reviewRouter);
 
  
 
