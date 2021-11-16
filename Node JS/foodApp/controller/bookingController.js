@@ -24,7 +24,7 @@ module.exports.createSession=async function createSession(req,res){
             currency: "inr",
             quantity: 1
           }
-        ],
+        ],  
         // dev => http
         // production => https 
         success_url: `${req.protocol}://${req.get("host")}/profile`,

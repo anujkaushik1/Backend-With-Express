@@ -110,4 +110,8 @@ module.exports.deleteUser=async function deleteUser(req,res)  {
     }  
 };
 
- 
+module.exports.updateProfileImage=function updateProfileImage(req,res){
+    res.json({
+      message:'file uploaded succesfully'
+    });
+  }
